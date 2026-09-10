@@ -10,6 +10,7 @@ const CATALOGO: Exercicio[] = [
     equipamento: 'Barra',
     instrucoes:
       'Deitado no banco, escápulas retraídas. Desça a barra até a linha do mamilo e empurre sem travar o cotovelo.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -19,6 +20,7 @@ const CATALOGO: Exercicio[] = [
     imagem: 'https://wger.de/media/exercise-images/97/Dumbbell-bench-press-1.png',
     equipamento: 'Halteres',
     instrucoes: 'Amplitude maior que a barra. Não deixe os halteres se tocarem no topo.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -28,6 +30,7 @@ const CATALOGO: Exercicio[] = [
     imagem: 'https://wger.de/media/exercise-images/98/Butterfly-machine-2.png',
     equipamento: 'Máquina',
     instrucoes: 'Cotovelo levemente flexionado e fixo. O movimento é do ombro, não do braço.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -37,6 +40,7 @@ const CATALOGO: Exercicio[] = [
     imagem: 'https://wger.de/media/exercise-images/109/Barbell-rear-delt-row-1.png',
     equipamento: 'Barra',
     instrucoes: 'Tronco a ~45°, coluna neutra. Puxe em direção ao umbigo.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -47,6 +51,7 @@ const CATALOGO: Exercicio[] = [
       'https://wger.de/media/exercise-images/158/0d51a0f2-622f-434b-beb8-1a003c54712a.png',
     equipamento: 'Polia alta',
     instrucoes: 'Puxe com o cotovelo, não com a mão. Peito para cima no final.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -57,6 +62,7 @@ const CATALOGO: Exercicio[] = [
       'https://wger.de/media/exercise-images/184/1709c405-620a-4d07-9658-fade2b66a2df.jpeg',
     equipamento: 'Barra',
     instrucoes: 'Barra colada na canela. Empurre o chão, não puxe a barra.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -67,6 +73,7 @@ const CATALOGO: Exercicio[] = [
       'https://wger.de/media/exercise-images/203/1c052351-2af0-4227-aeb0-244008e4b0a8.jpeg',
     equipamento: 'Halter',
     instrucoes: 'Halter junto ao peito, desça entre os calcanhares mantendo o tronco ereto.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -76,6 +83,7 @@ const CATALOGO: Exercicio[] = [
     imagem: 'https://wger.de/media/exercise-images/113/Walking-lunges-1.png',
     equipamento: 'Halteres',
     instrucoes: 'Passada longa para glúteo, curta para quadríceps. Joelho alinhado ao pé.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -86,6 +94,7 @@ const CATALOGO: Exercicio[] = [
       'https://wger.de/media/exercise-images/79/da58dfbf-748a-461b-891e-3d6bc9cc4be2.png',
     equipamento: 'Halteres',
     instrucoes: 'Não hiperestenda a lombar. Suba até quase travar o cotovelo.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -95,6 +104,7 @@ const CATALOGO: Exercicio[] = [
     imagem: 'https://wger.de/media/exercise-images/74/Bicep-curls-1.png',
     equipamento: 'Barra',
     instrucoes: 'Cotovelo colado ao tronco. Sem balanço de quadril.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -104,6 +114,7 @@ const CATALOGO: Exercicio[] = [
     imagem: 'https://wger.de/media/exercise-images/81/Biceps-curl-1.png',
     equipamento: 'Halteres',
     instrucoes: 'Supine o punho durante a subida para recrutar mais o bíceps.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -114,6 +125,7 @@ const CATALOGO: Exercicio[] = [
       'https://wger.de/media/exercise-images/50/695ced5c-9961-4076-add2-cb250d01089e.png',
     equipamento: 'Barra W',
     instrucoes: 'Cotovelo fixo apontando para o teto. Só o antebraço se move.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
   {
@@ -123,6 +135,7 @@ const CATALOGO: Exercicio[] = [
     imagem: 'https://wger.de/media/exercise-images/83/Bench-dips-1.png',
     equipamento: 'Peso corporal',
     instrucoes: 'Desça até o cotovelo formar 90°. Ombro pode reclamar se descer demais.',
+    nivel: 'iniciante',
     fonte: 'mock',
   },
 ]

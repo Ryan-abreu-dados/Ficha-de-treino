@@ -27,6 +27,10 @@ const MAPA = {
 
 import { PADROES_EXCLUIR, EXCLUIR_POR_GRUPO, TRADUCAO, EQUIPAMENTO } from './dicionario.mjs'
 import { INSTRUCAO } from './instrucoes.mjs'
+import { INICIANTE, AVANCADO } from './niveis.mjs'
+
+const SET_INICIANTE = new Set(INICIANTE)
+const SET_AVANCADO = new Set(AVANCADO)
 
 const naoTraduzidos = []
 const semInstrucao = []
@@ -101,11 +105,19 @@ for (const [grupo, filtro] of Object.entries(MAPA)) {
     const instrucoes = INSTRUCAO[nomeEn] ?? INSTRUCAO[nomeFinal] ?? null
     if (!instrucoes) semInstrucao.push(`${grupo}: ${nomeEn}`)
 
+    const id = `wger-${b.id}`
+    const nivel = SET_INICIANTE.has(id)
+      ? 'iniciante'
+      : SET_AVANCADO.has(id)
+        ? 'avancado'
+        : 'intermediario'
+
     catalogo.push({
-      id: `wger-${b.id}`,
+      id,
       nome: nomeFinal,
       nomeOriginal: nomeEn,
       grupo,
+      nivel,
       imagem: img.image,
       equipamento: b.equipment.map((e) => EQUIPAMENTO[e.name] ?? e.name).join(' · ') || null,
       instrucoes,

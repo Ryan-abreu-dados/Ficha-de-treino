@@ -1,16 +1,25 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AlertTriangle, Loader2, Plus, Search, X } from 'lucide-react'
-import type { Exercicio, GrupoId } from '@/types'
+import { NIVEIS, ORDEM_NIVEL, type Exercicio, type GrupoId, type Nivel } from '@/types'
+import { SeletorNivel } from './SeletorNivel'
 import { fonteExercicios } from '@/services/exercicios'
 import { ExercicioImagem } from './ExercicioImagem'
 
 interface Props {
   grupo: GrupoId
+  nivel: Nivel | null
+  onNivel: (n: Nivel | null) => void
   nomeTreinoDestino: string
   onAdicionar: (exercicio: Exercicio, series: number, reps: number) => void
 }
 
-export function PainelExercicio({ grupo, nomeTreinoDestino, onAdicionar }: Props) {
+export function PainelExercicio({
+  grupo,
+  nivel,
+  onNivel,
+  nomeTreinoDestino,
+  onAdicionar,
+}: Props) {
   const [exercicios, setExercicios] = useState<Exercicio[]>([])
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState<string | null>(null)
@@ -49,16 +58,28 @@ export function PainelExercicio({ grupo, nomeTreinoDestino, onAdicionar }: Props
     }
   }, [grupo])
 
+  const contagem = useMemo(() => {
+    const base = { iniciante: 0, intermediario: 0, avancado: 0 } as Record<Nivel, number>
+    for (const e of exercicios) base[e.nivel]++
+    return base
+  }, [exercicios])
+
+  // filtro de nivel e cumulativo: "intermediario" inclui os de iniciante
+  const doNivel = useMemo(() => {
+    if (!nivel) return exercicios
+    return exercicios.filter((e) => ORDEM_NIVEL[e.nivel] <= ORDEM_NIVEL[nivel])
+  }, [exercicios, nivel])
+
   // busca sem acento e sem caixa, no nome PT e tambem no nome original em ingles
   const filtrados = useMemo(() => {
     const termo = normalizar(busca)
-    if (!termo) return exercicios
-    return exercicios.filter(
+    if (!termo) return doNivel
+    return doNivel.filter(
       (e) =>
         normalizar(e.nome).includes(termo) ||
         normalizar(e.nomeOriginal ?? '').includes(termo),
     )
-  }, [exercicios, busca])
+  }, [doNivel, busca])
 
   // se a busca eliminou o exercicio que estava selecionado, cai no primeiro da lista
   useEffect(() => {
@@ -96,6 +117,10 @@ export function PainelExercicio({ grupo, nomeTreinoDestino, onAdicionar }: Props
         </div>
       ) : (
         <>
+          <div className="mb-2.5 -mx-1 overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <SeletorNivel ativo={nivel} onChange={onNivel} contagem={contagem} />
+          </div>
+
           <div className="mb-2 flex items-center justify-between">
             <label className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
               Exercício
@@ -128,7 +153,9 @@ export function PainelExercicio({ grupo, nomeTreinoDestino, onAdicionar }: Props
 
           {filtrados.length === 0 ? (
             <p className="rounded-xl border border-white/10 bg-base-700/50 px-3 py-2.5 text-sm text-zinc-500">
-              Nada encontrado para "{busca}".
+              {busca
+                ? `Nada encontrado para "${busca}".`
+                : `Nenhum exercício de ${NIVEIS.find((n) => n.id === nivel)?.nome.toLowerCase()} para baixo neste grupo.`}
             </p>
           ) : (
             <select
@@ -160,11 +187,16 @@ export function PainelExercicio({ grupo, nomeTreinoDestino, onAdicionar }: Props
                   {selecionado.nomeOriginal}
                 </p>
               )}
-              {selecionado.equipamento && (
-                <p className="mt-1.5 inline-block rounded-md bg-base-700 px-2 py-0.5 text-xs text-zinc-400">
-                  {selecionado.equipamento}
-                </p>
-              )}
+              <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                <span className="rounded-md bg-acento/15 px-2 py-0.5 text-xs font-semibold text-acento">
+                  {NIVEIS.find((n) => n.id === selecionado.nivel)?.nome}
+                </span>
+                {selecionado.equipamento && (
+                  <span className="rounded-md bg-base-700 px-2 py-0.5 text-xs text-zinc-400">
+                    {selecionado.equipamento}
+                  </span>
+                )}
+              </div>
               {selecionado.instrucoes && (
                 <p className="mt-2 line-clamp-4 text-sm leading-relaxed text-zinc-400">
                   {selecionado.instrucoes}

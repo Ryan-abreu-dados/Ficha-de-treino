@@ -1,6 +1,9 @@
 import type { Ficha, Treino } from '@/types'
 
 const CHAVE = 'ficha-do-ryan:v1'
+// a chave carrega versao: quando a apresentacao muda de conteudo (a aba
+// Progressao entrou na v2), quem ja tinha visto a anterior ve a nova uma vez
+const CHAVE_APRESENTACAO = 'ficha-do-ryan:apresentacao-vista:v2'
 
 export function fichaInicial(): Ficha {
   const treinos: Treino[] = ['A', 'B', 'C'].map((letra) => ({
@@ -46,8 +49,33 @@ export function salvarFicha(ficha: Ficha): void {
   }
 }
 
-export function exportarFicha(ficha: Ficha): void {
-  const blob = new Blob([JSON.stringify(ficha, null, 2)], { type: 'application/json' })
+/**
+ * Se o storage estiver bloqueado, `false` faz o modal aparecer toda visita.
+ * Entre repetir a apresentacao e nunca mostrar para quem chega, repetir e o mal menor.
+ */
+export function jaViuApresentacao(): boolean {
+  try {
+    return localStorage.getItem(CHAVE_APRESENTACAO) === '1'
+  } catch {
+    return false
+  }
+}
+
+export function marcarApresentacaoVista(): void {
+  try {
+    localStorage.setItem(CHAVE_APRESENTACAO, '1')
+  } catch {
+    // storage bloqueado: o modal volta na proxima visita, e tudo bem
+  }
+}
+
+/**
+ * O backup leva ficha e historico juntos: exportar so a ficha faria o usuario
+ * perder meses de carga registrada sem perceber que nao estavam ali.
+ */
+export function exportarFicha(ficha: Ficha, historico?: unknown): void {
+  const conteudo = { exportadoEm: new Date().toISOString(), ficha, historico }
+  const blob = new Blob([JSON.stringify(conteudo, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url

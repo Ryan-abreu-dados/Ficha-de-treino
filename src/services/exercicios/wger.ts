@@ -56,6 +56,8 @@ function normalizar(bruto: WgerExercicio, grupo: GrupoId): Exercicio | null {
     id: `wger-${bruto.id}`,
     nome: traducao.name,
     grupo,
+    // a API nao tem esse conceito; a classificacao por nivel vive no catalogo curado
+    nivel: 'intermediario',
     imagem: principal?.image ?? null,
     equipamento: bruto.equipment.map((e) => e.name).join(', ') || null,
     instrucoes: traducao.description ? semHtml(traducao.description) : null,

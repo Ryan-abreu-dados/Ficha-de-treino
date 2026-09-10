@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { Exercicio, Ficha, ItemFicha } from '@/types'
+import type { Exercicio, Ficha, ItemFicha, Treino } from '@/types'
 import { carregarFicha, fichaInicial, salvarFicha } from '@/lib/storage'
+import { fonteCatalogo } from '@/services/exercicios'
+import type { Combo } from '@/data/combos'
 
 const novoId = () =>
   typeof crypto !== 'undefined' && 'randomUUID' in crypto
@@ -138,6 +140,42 @@ export function useFicha() {
     [atualizar, ficha.treinos],
   )
 
+  /**
+   * Substitui a ficha inteira por uma pronta. Item cujo id nao existe mais no
+   * catalogo e pulado em silencio — `scripts/validar-combos.mjs` roda no build
+   * justamente pra que isso nunca aconteca em producao.
+   */
+  const aplicarCombo = useCallback((combo: Combo) => {
+    const agora = new Date().toISOString()
+
+    const treinos: Treino[] = combo.treinos.map((t) => ({
+      id: novoId(),
+      nome: t.nome,
+      itens: t.itens.flatMap((item) => {
+        const exercicio = fonteCatalogo.acharPorId(item.id, item.grupo)
+        if (!exercicio) return []
+        return [
+          {
+            itemId: novoId(),
+            exercicioId: exercicio.id,
+            nome: exercicio.nome,
+            nomeOriginal: exercicio.nomeOriginal,
+            grupo: exercicio.grupo,
+            imagem: exercicio.imagem,
+            series: item.series,
+            reps: item.reps,
+            carga: '',
+            obs: '',
+            adicionadoEm: agora,
+          } satisfies ItemFicha,
+        ]
+      }),
+    }))
+
+    setFicha({ versao: 1, treinos, atualizadoEm: agora })
+    setTreinoAtivoId(treinos[0]?.id ?? '')
+  }, [])
+
   const limparTudo = useCallback(() => {
     const nova = fichaInicial()
     setFicha(nova)
@@ -162,6 +200,7 @@ export function useFicha() {
     renomearTreino,
     adicionarTreino,
     removerTreino,
+    aplicarCombo,
     limparTudo,
   }
 }

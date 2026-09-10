@@ -14,6 +14,9 @@ Também serviu de pretexto pra testar consumo de API de exercícios na prática.
 - Montar vários treinos (A, B, C...), renomear e excluir
 - Editar séries, reps, carga e observação de qualquer exercício depois
 - Reordenar e remover exercícios da ficha
+- Filtrar também por nível técnico (iniciante, intermediário, avançado)
+- Aplicar uma **ficha pronta** completa — iniciante, intermediário ou avançado
+- Registrar o peso de cada série na aba **Progressão** e ver a evolução ao longo dos meses
 - Ver o nome do exercício em português com o original em inglês logo abaixo
 - Tudo salvo no navegador — fecha, volta meses depois e a ficha está lá
 - Gerar um **PDF** da ficha completa, com imagem e coluna em branco para anotar a carga
@@ -91,6 +94,49 @@ VITE_FONTE_EXERCICIOS=wger
 A **MuscleWiki** ficou de fora porque não tem API pública: os endpoints que o site dela usa
 (`/newapi/...`) estão atrás do Cloudflare e respondem `403` pra origem externa.
 
+## Níveis e fichas prontas
+
+Cada exercício tem um nível, mas o critério é **risco e coordenação, não "quanto
+cresce"**: máquina e trajetória guiada são de iniciante, peso livre com estabilização é
+intermediário, levantamento olímpico e alto risco lombar são avançado. Fica em
+`scripts/niveis.mjs` — 76 / 70 / 41.
+
+O filtro da interface é **cumulativo**: marcar Intermediário mostra também os de iniciante.
+Exercício básico não deixa de servir quando a pessoa evolui — o que muda entre níveis de
+praticante é volume e divisão de treino, e isso quem carrega são as fichas prontas
+(`src/data/combos.ts`):
+
+| Ficha | Divisão | Treinos | Exercícios | Séries |
+| ----- | ------- | ------- | ---------- | ------ |
+| Iniciante | Full body A/B alternado | 2 | 14 | 42 |
+| Intermediário | Peito+Tríceps / Costas+Bíceps / Pernas+Ombro | 3 | 19 | 65 |
+| Avançado | A/B/C/D, ombro e braços separados | 4 | 29 | 110 |
+
+`npm run validar` (que roda dentro do `npm run build`) confere que todo item dos combos
+existe no catálogo, no grupo declarado. Sem isso um id errado não daria erro nenhum: o
+exercício simplesmente não entraria e a ficha aplicaria menor.
+
+Atenção a um detalhe do catálogo: **o mesmo id aparece em dois grupos** — `wger-152`
+(Chin Up) está em costas e bíceps, `wger-194` (Dips) em peito e tríceps. Por isso cada item
+de combo carrega id *e* grupo.
+
+## Progressão de carga
+
+Na aba Progressão você escolhe o treino, a data e anota o peso de cada série. Os exercícios
+vêm da própria ficha, e **a carga da última vez já vem preenchida** — na maioria dos dias é
+conferir e salvar.
+
+Duas decisões que sustentam isso:
+
+- **O registro é gravado por `exercicioId`, nunca pelo item da ficha.** Você pode excluir o
+  exercício, reordenar, trocar de treino ou aplicar uma ficha pronta por cima: o histórico
+  do supino continua de pé desde o primeiro registro. Preso ao item da ficha, sumiria.
+- **A evolução compara volume (`peso × reps`), não só o peso.** Sair de 20 kg × 8 para
+  20 kg × 12 é progresso real e apareceria como 0% se olhasse só a carga.
+
+O gráfico é de barras, não de linha, porque as sessões não são igualmente espaçadas no
+tempo — uma linha sugeriria uma continuidade que o dado não tem.
+
 ## PDF
 
 O botão **PDF** chama `window.print()` sobre uma folha de estilo dedicada
@@ -105,7 +151,8 @@ No diálogo que abre, escolha "Salvar como PDF" no destino.
 
 ## Persistência
 
-Tudo em `localStorage`, na chave `ficha-do-ryan:v1`. O campo `versao` no JSON existe
+Tudo em `localStorage`: a ficha em `ficha-do-ryan:v1` e o histórico de carga em
+`ficha-do-ryan:historico:v1`. O campo `versao` no JSON existe
 justamente pra permitir migrar o formato depois sem perder ficha antiga.
 
 O estado é um objeto serializável único, então quando entrar login a troca é só no
@@ -115,4 +162,4 @@ O estado é um objeto serializável único, então quando entrar login a troca �
 
 - [ ] Login por e-mail, pra ficha seguir a pessoa entre dispositivos
 - [ ] Salvar em banco no lugar do localStorage
-- [ ] Histórico de carga por exercício
+- [ ] Página de progressão no PDF
