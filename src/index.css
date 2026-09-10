@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-base-900 text-zinc-100 antialiased;
+    background-image: radial-gradient(
+      110% 60% at 50% -10%,
+      rgba(163, 230, 53, 0.09),
+      transparent 60%
+    );
+    background-attachment: fixed;
+  }
+
+  /* tira as setinhas do input number no desktop: o teclado mobile ja resolve */
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer components {
+  .cartao {
+    @apply rounded-2xl border border-white/5 bg-base-800/80 backdrop-blur;
+  }
+
+  .campo {
+    @apply w-full rounded-xl border border-white/10 bg-base-700 px-3 py-2.5 text-base
+           text-zinc-100 outline-none transition
+           placeholder:text-zinc-500 focus:border-acento/60 focus:ring-2 focus:ring-acento/20;
+  }
+
+  .botao-primario {
+    @apply flex w-full items-center justify-center gap-2 rounded-xl bg-acento px-4 py-3
+           text-base font-semibold text-base-900 transition
+           active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .botao-fantasma {
+    @apply flex items-center justify-center gap-1.5 rounded-lg border border-white/10
+           px-2.5 py-1.5 text-xs font-medium text-zinc-300 transition
+           hover:border-white/20 hover:text-zinc-100 active:scale-95
+           disabled:cursor-not-allowed disabled:opacity-30;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Impressao / "Baixar PDF"
+   Na tela a ficha imprimivel nao existe; na impressao o app some e
+   so ela aparece, em fundo branco pra nao torrar tinta nem ficar
+   ilegivel se o cara imprimir de verdade em papel.
+   --------------------------------------------------------------- */
+.apenas-impressao {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 14mm 12mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  body {
+    background-image: none !important;
+  }
+
+  .sem-impressao {
+    display: none !important;
+  }
+
+  .apenas-impressao {
+    display: block;
+    font-size: 10pt;
+    color: #000;
+  }
+
+  .pdf-cabecalho {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 2px solid #000;
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+  }
+
+  .pdf-cabecalho h1 {
+    font-size: 18pt;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .pdf-cabecalho span {
+    font-size: 9pt;
+    color: #555;
+  }
+
+  .pdf-treino {
+    /* nao parte um treino ao meio entre duas folhas se der pra evitar */
+    break-inside: avoid;
+    margin-bottom: 18px;
+  }
+
+  .pdf-treino h2 {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font-size: 13pt;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .pdf-resumo {
+    font-size: 8.5pt;
+    font-weight: 400;
+    color: #666;
+  }
+
+  .pdf-vazio {
+    font-size: 9pt;
+    font-style: italic;
+    color: #888;
+  }
+
+  .pdf-tabela {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .pdf-tabela th {
+    text-align: left;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #666;
+    border-bottom: 1px solid #999;
+    padding: 3px 6px;
+  }
+
+  .pdf-tabela td {
+    border-bottom: 1px solid #ddd;
+    padding: 5px 6px;
+    vertical-align: middle;
+    break-inside: avoid;
+  }
+
+  .pdf-tabela .col-num {
+    width: 18px;
+    text-align: center;
+    color: #888;
+    font-size: 8pt;
+  }
+
+  .pdf-tabela .col-img {
+    width: 74px;
+  }
+
+  .pdf-tabela .col-img img {
+    width: 68px;
+    height: 50px;
+    object-fit: contain;
+  }
+
+  .pdf-tabela .col-sr {
+    width: 76px;
+    text-align: center;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .pdf-tabela .col-carga {
+    width: 62px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .pdf-tabela strong {
+    display: block;
+    font-size: 10pt;
+    font-weight: 600;
+  }
+
+  .pdf-en {
+    display: block;
+    font-size: 8pt;
+    font-style: italic;
+    color: #666;
+  }
+
+  .pdf-grupo {
+    display: block;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #777;
+  }
+
+  .pdf-obs {
+    display: block;
+    font-size: 8pt;
+    font-style: italic;
+    color: #555;
+  }
+
+  .pdf-sem-imagem {
+    color: #bbb;
+  }
+}
