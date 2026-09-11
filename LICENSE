@@ -19,11 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Esta licença cobre o CÓDIGO deste repositório (React, TypeScript, scripts,
-CSS). O catálogo de exercícios embutido em
-`src/services/exercicios/catalogo.json` é dado COMPILADO a partir de fontes
-de terceiros com licenças próprias — ver a seção "Créditos e licenças" do
-README antes de reusar esses dados fora deste projeto.
