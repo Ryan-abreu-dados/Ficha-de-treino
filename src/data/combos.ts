@@ -400,4 +400,51 @@ export const COMBOS: Combo[] = [
       },
     ],
   },
+
+  {
+    id: 'ryan-ppl',
+    categoria: 'foco',
+    titulo: 'Treino do Ryan',
+    publico: 'Push/pull/legs clássico, hipertrofia moderada-alta',
+    resumo:
+      'Divisão empurra/puxa/pernas com os exercícios que o Ryan pediu direto. 4 séries de 8 a 12 reps na maioria (usei 10 como número do meio pra registrar na Progressão) e 15 a 20 na panturrilha.',
+    frequencia: '3x por semana, revezando A/B/C',
+    treinos: [
+      {
+        nome: 'Treino A — Peito, Ombro e Tríceps',
+        itens: [
+          s('wger-537', 'peito', 4, 10), // supino inclinado com halteres
+          s('wger-73', 'peito', 4, 10), // supino reto com barra (ou na máquina, troque se preferir)
+          s('wger-1296', 'peito', 4, 10), // cross-over na polia baixa (puxando de baixo pra cima)
+          s('wger-194', 'peito', 4, 10), // mergulho nas paralelas
+          s('fedb-Arnold_Dumbbell_Press', 'ombro', 4, 10), // desenvolvimento Arnold
+          s('wger-1378', 'ombro', 4, 10), // elevação lateral na polia (versão unilateral, é como se faz na prática)
+          s('wger-50', 'triceps', 4, 10), // tríceps testa com barra
+          s('wger-1900', 'triceps', 4, 10), // tríceps pulley com corda
+        ],
+      },
+      {
+        nome: 'Treino B — Costas e Bíceps',
+        itens: [
+          s('wger-475', 'costas', 4, 10), // barra fixa
+          s('wger-83', 'costas', 4, 10), // remada curvada com barra
+          s('wger-1637', 'costas', 4, 10), // remada unilateral (serrote)
+          s('wger-1726', 'costas', 4, 10), // pulldown com braço estendido (corda)
+          s('fedb-Preacher_Curl', 'biceps', 4, 10), // rosca Scott
+          s('wger-272', 'biceps', 4, 10), // rosca martelo com halteres
+        ],
+      },
+      {
+        nome: 'Treino C — Pernas',
+        itens: [
+          s('wger-1521', 'pernas', 4, 10), // agachamento hack
+          s('wger-371', 'pernas', 4, 10), // leg press
+          s('wger-988', 'pernas', 4, 10), // afundo búlgaro
+          s('wger-507', 'pernas', 4, 10), // stiff (com barra ou halteres)
+          s('wger-369', 'pernas', 4, 10), // cadeira extensora
+          s('wger-1243', 'pernas', 4, 18), // elevação de panturrilha
+        ],
+      },
+    ],
+  },
 ]

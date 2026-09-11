@@ -179,9 +179,11 @@ export const TRADUCAO = {
   'Handstand Pushup': 'Flexão em parada de mão',
   'Hindu Pushups': 'Flexão hindu',
   'Tuck planche': 'Planche agrupado',
+  'Arnold Dumbbell Press': 'Desenvolvimento Arnold',
 
   // ---- biceps
   'Biceps Curls With Barbell': 'Rosca direta com barra',
+  'Preacher Curl': 'Rosca Scott',
   'Biceps Curls With SZ-bar': 'Rosca direta com barra W',
   'Biceps Curls With Dumbbell': 'Rosca alternada com halteres',
   'Alternating Biceps Curls With Dumbbell': 'Rosca alternada com halteres',

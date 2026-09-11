@@ -160,6 +160,7 @@ Além dessas três (categoria `experiencia`), existem cinco fichas por **objetiv
 | Emagrecimento | Full body A/B | 15–20 | descanso curto (30–45 s); resumo avisa que quem emagrece é o déficit calórico, não o treino |
 | Definição | Superior/Inferior | 12–15 | descanso moderado (45–60 s); resumo avisa que "definição" vem do % de gordura, não de um exercício especial |
 | Foco em costas | 2 dias de costas + 1 de manutenção | 6–15 | especialização: dobra o volume do grupo priorizado sem abandonar o resto |
+| Treino do Ryan | Push/Pull/Legs, escolha própria de exercícios | 10 (18 na panturrilha) | ficha personalizada pedida pelo Ryan — Arnold press, cross-over de baixo pra cima, hack squat, afundo búlgaro |
 
 Os planos de emagrecimento e definição são deliberadamente honestos no texto que mostram:
 nenhum treino "queima gordura localizada" ou "define" sozinho — isso é fisiologia básica,
