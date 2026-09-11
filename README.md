@@ -15,7 +15,8 @@ Também serviu de pretexto pra testar consumo de API de exercícios na prática.
 - Editar séries, reps, carga e observação de qualquer exercício depois
 - Reordenar e remover exercícios da ficha
 - Filtrar também por nível técnico (iniciante, intermediário, avançado)
-- Aplicar uma **ficha pronta** completa — iniciante, intermediário ou avançado
+- Aplicar uma **ficha pronta** completa — por experiência (iniciante/intermediário/avançado)
+  ou por objetivo (força, ganhar massa, emagrecimento, definição, foco em costas)
 - Registrar o peso de cada série na aba **Progressão** e ver a evolução ao longo dos meses
 - Ver o nome do exercício em português com o original em inglês logo abaixo
 - Criar um exercício manual (sem foto) quando não achar o que procura
@@ -148,6 +149,22 @@ praticante é volume e divisão de treino, e isso quem carrega são as fichas pr
 | Iniciante | Full body A/B alternado | 2 | 14 | 42 |
 | Intermediário | Peito+Tríceps / Costas+Bíceps / Pernas+Ombro | 3 | 19 | 65 |
 | Avançado | A/B/C/D, ombro e braços separados | 4 | 29 | 110 |
+
+Além dessas três (categoria `experiencia`), existem cinco fichas por **objetivo**
+(categoria `foco`), que pressupõem alguma base e não são escalonadas por experiência:
+
+| Ficha | Divisão | Reps | O que muda de verdade |
+| ----- | ------- | ---- | ---------------------- |
+| Força | Push/Pull/Legs, poucos exercícios | 3–6 | menos exercícios, mais descanso entre séries (2–3 min) |
+| Ganhar massa | Push/Pull/Legs, mais volume | 8–15 | mais exercícios por sessão que o plano intermediário |
+| Emagrecimento | Full body A/B | 15–20 | descanso curto (30–45 s); resumo avisa que quem emagrece é o déficit calórico, não o treino |
+| Definição | Superior/Inferior | 12–15 | descanso moderado (45–60 s); resumo avisa que "definição" vem do % de gordura, não de um exercício especial |
+| Foco em costas | 2 dias de costas + 1 de manutenção | 6–15 | especialização: dobra o volume do grupo priorizado sem abandonar o resto |
+
+Os planos de emagrecimento e definição são deliberadamente honestos no texto que mostram:
+nenhum treino "queima gordura localizada" ou "define" sozinho — isso é fisiologia básica,
+não capricho meu. O que muda entre eles e os outros é volume e descanso, e digo isso na
+cara em vez de vender promessa.
 
 `npm run validar` (que roda dentro do `npm run build`) confere que todo item dos combos
 existe no catálogo, no grupo declarado. Sem isso um id errado não daria erro nenhum: o

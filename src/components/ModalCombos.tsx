@@ -85,18 +85,40 @@ export function ModalCombos({ aberto, onFechar, exerciciosAtuais, onAplicar }: P
           </button>
         </div>
 
-        <div className="mt-4 space-y-3">
-          {COMBOS.map((combo) => (
-            <CartaoCombo
-              key={combo.nivel}
-              combo={combo}
-              expandido={expandido === combo.nivel}
-              onAlternar={() =>
-                setExpandido((atual) => (atual === combo.nivel ? null : combo.nivel))
-              }
-              onUsar={() => setConfirmando(combo)}
-            />
-          ))}
+        <div className="mt-4 space-y-5">
+          <div className="space-y-3">
+            <h3 className="px-1 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+              Por experiência
+            </h3>
+            {COMBOS.filter((c) => c.categoria === 'experiencia').map((combo) => (
+              <CartaoCombo
+                key={combo.id}
+                combo={combo}
+                expandido={expandido === combo.id}
+                onAlternar={() =>
+                  setExpandido((atual) => (atual === combo.id ? null : combo.id))
+                }
+                onUsar={() => setConfirmando(combo)}
+              />
+            ))}
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="px-1 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+              Por objetivo
+            </h3>
+            {COMBOS.filter((c) => c.categoria === 'foco').map((combo) => (
+              <CartaoCombo
+                key={combo.id}
+                combo={combo}
+                expandido={expandido === combo.id}
+                onAlternar={() =>
+                  setExpandido((atual) => (atual === combo.id ? null : combo.id))
+                }
+                onUsar={() => setConfirmando(combo)}
+              />
+            ))}
+          </div>
         </div>
 
         <p className="mt-4 text-center text-[11px] leading-relaxed text-zinc-600">

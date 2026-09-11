@@ -13,7 +13,7 @@ const PASSOS = [
     icone: Sparkles,
     titulo: 'Comece por uma ficha pronta',
     texto:
-      'Tem três montadas — iniciante, intermediário e avançado — que já preenchem os treinos inteiros. Ou monte do zero, se preferir.',
+      'Tem opções por experiência (iniciante, intermediário, avançado) e por objetivo (força, ganhar massa, emagrecimento, definição, foco em costas) que já preenchem os treinos inteiros. Ou monte do zero, se preferir.',
   },
   {
     icone: Search,
