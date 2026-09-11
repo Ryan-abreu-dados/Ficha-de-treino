@@ -128,7 +128,7 @@ export function RegistrarSessao({ treinos, ultimasCargas, onSalvar }: Props) {
             Treino
           </label>
           <select
-            className="campo appearance-none py-2 text-sm"
+            className="campo appearance-none py-2 text-base"
             value={treino?.id ?? ''}
             onChange={(e) => setTreinoId(e.target.value)}
           >
@@ -145,7 +145,7 @@ export function RegistrarSessao({ treinos, ultimasCargas, onSalvar }: Props) {
           </label>
           <input
             type="date"
-            className="campo py-2 text-sm"
+            className="campo py-2 text-base"
             value={data}
             max={hojeISO()}
             onChange={(e) => setData(e.target.value)}
@@ -192,7 +192,7 @@ export function RegistrarSessao({ treinos, ultimasCargas, onSalvar }: Props) {
                       type="text"
                       inputMode="decimal"
                       placeholder="peso"
-                      className="campo py-1.5 pr-8 text-center text-sm font-bold"
+                      className="campo py-1.5 pr-8 text-center text-base font-bold"
                       value={serie.peso}
                       onChange={(e) => alterar(item.itemId, i, 'peso', e.target.value)}
                     />
@@ -206,7 +206,7 @@ export function RegistrarSessao({ treinos, ultimasCargas, onSalvar }: Props) {
                       type="text"
                       inputMode="numeric"
                       placeholder="reps"
-                      className="campo py-1.5 text-center text-sm"
+                      className="campo py-1.5 text-center text-base"
                       value={serie.reps}
                       onChange={(e) => alterar(item.itemId, i, 'reps', e.target.value)}
                     />

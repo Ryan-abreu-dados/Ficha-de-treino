@@ -116,7 +116,7 @@ export function ItemFichaCard({
               <CampoNumero
                 valor={rascunho.series}
                 onChange={(v) => setRascunho((r) => ({ ...r, series: v }))}
-                className="campo px-2 py-2 text-center text-sm font-bold"
+                className="campo px-2 py-2 text-center text-base font-bold"
               />
             </div>
             <div>
@@ -126,7 +126,7 @@ export function ItemFichaCard({
               <CampoNumero
                 valor={rascunho.reps}
                 onChange={(v) => setRascunho((r) => ({ ...r, reps: v }))}
-                className="campo px-2 py-2 text-center text-sm font-bold"
+                className="campo px-2 py-2 text-center text-base font-bold"
               />
             </div>
             <div>
@@ -136,7 +136,7 @@ export function ItemFichaCard({
               <input
                 type="text"
                 placeholder="20 kg"
-                className="campo px-2 py-2 text-center text-sm"
+                className="campo px-2 py-2 text-center text-base"
                 value={rascunho.carga}
                 onChange={(e) => setRascunho((r) => ({ ...r, carga: e.target.value }))}
               />
@@ -146,7 +146,7 @@ export function ItemFichaCard({
           <input
             type="text"
             placeholder="Observação (cadência, drop-set, dor...)"
-            className="campo mt-2 py-2 text-sm"
+            className="campo mt-2 py-2 text-base"
             value={rascunho.obs}
             onChange={(e) => setRascunho((r) => ({ ...r, obs: e.target.value }))}
           />

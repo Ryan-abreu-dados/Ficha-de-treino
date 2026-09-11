@@ -46,7 +46,7 @@ export function AbasTreino({
                       if (e.key === 'Enter') confirmarRenome(t.id)
                       if (e.key === 'Escape') setRenomeandoId(null)
                     }}
-                    className="w-32 rounded-lg border border-acento/50 bg-base-700 px-2 py-1.5 text-sm outline-none"
+                    className="w-32 rounded-lg border border-acento/50 bg-base-700 px-2 py-1.5 text-base outline-none"
                   />
                   <button
                     type="button"

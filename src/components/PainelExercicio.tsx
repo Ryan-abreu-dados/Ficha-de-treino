@@ -169,7 +169,7 @@ export function PainelExercicio({
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
               placeholder="Buscar exercício..."
-              className="campo py-2 pl-9 pr-9 text-sm"
+              className="campo py-2 pl-9 pr-9 text-base"
             />
             {busca && (
               <button

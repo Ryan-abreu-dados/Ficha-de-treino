@@ -6,6 +6,9 @@ na frente — e conseguir mudar tudo depois de um tempo, sem ter que refazer do 
 
 Também serviu de pretexto pra testar consumo de API de exercícios na prática.
 
+É **open source** — manda mensagem no privado ou abre um PR se quiser ajudar a
+construir. Detalhes em [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+
 ## O que dá pra fazer
 
 - Filtrar exercícios por grupo muscular (Peito, Costas, Pernas, Ombro, Bíceps, Tríceps)
@@ -212,6 +215,25 @@ justamente pra permitir migrar o formato depois sem perder ficha antiga.
 
 O estado é um objeto serializável único, então quando entrar login a troca é só no
 `salvarFicha`/`carregarFicha` — os componentes não mudam.
+
+## Créditos e licenças
+
+O **código** deste repositório é [MIT](./LICENSE) — usa, copia, modifica, redistribui,
+sem pedir licença.
+
+O **catálogo de exercícios** (`src/services/exercicios/catalogo.json`) é dado
+compilado de duas fontes de terceiros, cada uma com sua própria licença:
+
+- **[wger.de](https://wger.de)** — dados sob
+  [CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). Essa licença exige
+  atribuição (feita aqui) e que redistribuição de dados derivados siga licença
+  compatível — se for reusar o catálogo fora deste projeto, essa parte vai junto.
+- **[yuhonas/free-exercise-db](https://github.com/yuhonas/free-exercise-db)** — dados em
+  domínio público ([Unlicense](https://github.com/yuhonas/free-exercise-db/blob/main/LICENSE)),
+  sem restrição nenhuma.
+
+Isso não é conselho jurídico, é a licença que cada fonte declara publicamente. Se for
+redistribuir o catálogo fora deste app, confira as licenças originais.
 
 ## Próximos passos
 
