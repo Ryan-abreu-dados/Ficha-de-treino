@@ -4,6 +4,7 @@ import { NIVEIS, ORDEM_NIVEL, type Exercicio, type GrupoId, type Nivel } from '@
 import { SeletorNivel } from './SeletorNivel'
 import { fonteExercicios } from '@/services/exercicios'
 import { ExercicioImagem } from './ExercicioImagem'
+import { CampoNumero } from './CampoNumero'
 
 interface Props {
   grupo: GrupoId
@@ -208,26 +209,20 @@ export function PainelExercicio({
                   <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500">
                     Séries
                   </label>
-                  <input
-                    type="number"
-                    inputMode="numeric"
-                    min={1}
+                  <CampoNumero
+                    valor={series}
+                    onChange={setSeries}
                     className="campo text-center text-lg font-bold"
-                    value={series}
-                    onChange={(e) => setSeries(limitar(e.target.value))}
                   />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500">
                     Repetições
                   </label>
-                  <input
-                    type="number"
-                    inputMode="numeric"
-                    min={1}
+                  <CampoNumero
+                    valor={reps}
+                    onChange={setReps}
                     className="campo text-center text-lg font-bold"
-                    value={reps}
-                    onChange={(e) => setReps(limitar(e.target.value))}
                   />
                 </div>
               </div>
@@ -252,9 +247,3 @@ function normalizar(texto: string): string {
     .replace(/[̀-ͯ]/g, '')
 }
 
-/** so impede zero e negativo — nao existe teto de series nem de repeticoes */
-function limitar(valor: string): number {
-  const n = Number.parseInt(valor, 10)
-  if (Number.isNaN(n) || n < 1) return 1
-  return n
-}

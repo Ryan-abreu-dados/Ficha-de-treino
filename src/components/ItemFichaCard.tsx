@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp, Check, Pencil, Trash2, X } from 'lucide-react'
 import type { ItemFicha } from '@/types'
 import { NOME_GRUPO } from '@/types'
 import { ExercicioImagem } from './ExercicioImagem'
+import { CampoNumero } from './CampoNumero'
 
 interface Props {
   item: ItemFicha
@@ -108,16 +109,26 @@ export function ItemFichaCard({
       {editando ? (
         <div className="border-t border-white/5 bg-base-700/40 p-3">
           <div className="grid grid-cols-3 gap-2">
-            <CampoNumero
-              rotulo="Séries"
-              valor={rascunho.series}
-              onChange={(v) => setRascunho((r) => ({ ...r, series: v }))}
-            />
-            <CampoNumero
-              rotulo="Reps"
-              valor={rascunho.reps}
-              onChange={(v) => setRascunho((r) => ({ ...r, reps: v }))}
-            />
+            <div>
+              <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
+                Séries
+              </label>
+              <CampoNumero
+                valor={rascunho.series}
+                onChange={(v) => setRascunho((r) => ({ ...r, series: v }))}
+                className="campo px-2 py-2 text-center text-sm font-bold"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
+                Reps
+              </label>
+              <CampoNumero
+                valor={rascunho.reps}
+                onChange={(v) => setRascunho((r) => ({ ...r, reps: v }))}
+                className="campo px-2 py-2 text-center text-sm font-bold"
+              />
+            </div>
             <div>
               <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
                 Carga
@@ -200,29 +211,3 @@ export function ItemFichaCard({
   )
 }
 
-interface CampoNumeroProps {
-  rotulo: string
-  valor: number
-  onChange: (v: number) => void
-}
-
-function CampoNumero({ rotulo, valor, onChange }: CampoNumeroProps) {
-  return (
-    <div>
-      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
-        {rotulo}
-      </label>
-      <input
-        type="number"
-        inputMode="numeric"
-        min={1}
-        className="campo px-2 py-2 text-center text-sm font-bold"
-        value={valor}
-        onChange={(e) => {
-          const n = Number.parseInt(e.target.value, 10)
-          onChange(Number.isNaN(n) || n < 1 ? 1 : n)
-        }}
-      />
-    </div>
-  )
-}
