@@ -1,9 +1,10 @@
 import type { Ficha, Treino } from '@/types'
 
 const CHAVE = 'ficha-do-ryan:v1'
-// a chave carrega versao: quando a apresentacao muda de conteudo (a aba
-// Progressao entrou na v2), quem ja tinha visto a anterior ve a nova uma vez
-const CHAVE_APRESENTACAO = 'ficha-do-ryan:apresentacao-vista:v2'
+// a chave carrega versao: quando a apresentacao muda de conteudo (v2: aba
+// Progressao; v3: catalogo maior + criar exercicio manual), quem ja tinha
+// visto a anterior ve a nova uma vez
+const CHAVE_APRESENTACAO = 'ficha-do-ryan:apresentacao-vista:v3'
 
 export function fichaInicial(): Ficha {
   const treinos: Treino[] = ['A', 'B', 'C'].map((letra) => ({

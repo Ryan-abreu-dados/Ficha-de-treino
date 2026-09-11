@@ -43,7 +43,7 @@ export interface Exercicio {
   instrucoes?: string | null
   /** nome como veio da origem; serve pra busca funcionar em ingles tambem */
   nomeOriginal?: string
-  fonte?: 'mock' | 'wger' | 'catalogo'
+  fonte?: 'mock' | 'wger' | 'catalogo' | 'manual'
 }
 
 /** Um exercicio ja configurado dentro de um treino. */

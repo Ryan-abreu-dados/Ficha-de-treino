@@ -58,6 +58,19 @@ export const EQUIPAMENTO = {
   'Swiss Ball': 'Bola suica',
   'Gym mat': 'Colchonete',
   'none (bodyweight exercise)': 'Peso corporal',
+
+  // valores do Free Exercise DB (segunda fonte, chaves minusculas e diferentes do wger)
+  'body only': 'Peso corporal',
+  barbell: 'Barra',
+  dumbbell: 'Halteres',
+  cable: 'Polia',
+  machine: 'Máquina',
+  kettlebells: 'Kettlebell',
+  bands: 'Elástico',
+  'medicine ball': 'Bola medicinal',
+  'exercise ball': 'Bola suíça',
+  'foam roll': 'Rolo de espuma',
+  'e-z curl bar': 'Barra W',
 }
 
 /** en (ou o que o wger cadastrou) -> pt-BR. Nome ausente aqui fica como esta. */

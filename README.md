@@ -18,6 +18,7 @@ Também serviu de pretexto pra testar consumo de API de exercícios na prática.
 - Aplicar uma **ficha pronta** completa — iniciante, intermediário ou avançado
 - Registrar o peso de cada série na aba **Progressão** e ver a evolução ao longo dos meses
 - Ver o nome do exercício em português com o original em inglês logo abaixo
+- Criar um exercício manual (sem foto) quando não achar o que procura
 - Tudo salvo no navegador — fecha, volta meses depois e a ficha está lá
 - Gerar um **PDF** da ficha completa, com imagem e coluna em branco para anotar a carga
 - Baixar um backup em JSON (o PDF é para levar na academia, o JSON é para restaurar)
@@ -37,35 +38,35 @@ Vite + React 18 + TypeScript + Tailwind CSS. Sem backend.
 
 ## Fonte dos exercícios
 
-São **187 exercícios**, todos com imagem, com os nomes em português:
+São **548 exercícios**, todos com imagem, combinados de duas fontes públicas:
 
 | Grupo   | Exercícios |
 | ------- | ---------- |
-| Peito   | 28         |
-| Costas  | 36         |
-| Pernas  | 62         |
-| Ombro   | 32         |
-| Bíceps  | 17         |
-| Tríceps | 12         |
+| Peito   | 63         |
+| Costas  | 90         |
+| Pernas  | 199        |
+| Ombro   | 106        |
+| Bíceps  | 44         |
+| Tríceps | 46         |
 
-Os dados vêm da API pública do [wger.de](https://wger.de/en/software/api), mas não em
-runtime: `npm run catalogo` baixa, filtra e grava `src/services/exercicios/catalogo.json`.
-O app lê esse JSON. Assim ele abre instantâneo, funciona offline e não depende do uptime
-deles.
+`npm run catalogo` baixa, filtra e combina tudo num `src/services/exercicios/catalogo.json`
+embutido — não roda nada disso em runtime. Assim o app abre instantâneo, funciona offline e
+não depende do uptime de ninguém.
 
-O que o gerador faz além de baixar:
+### wger — 192 exercícios, com curadoria completa
 
-- **descarta exercício sem imagem** — o wger tem ~948 exercícios mas só ~377 imagens, e um
-  app visual sem foto não serve pra nada;
+Vêm da API pública do [wger.de](https://wger.de/en/software/api). É a fonte "premium" do
+catálogo: cada nome foi traduzido à mão (`scripts/dicionario.mjs`) e cada exercício ganhou
+um texto de execução em português escrito à mão (`scripts/instrucoes.mjs`) — o wger tem
+descrição em inglês, mas de qualidade irregular, então preferi escrever a minha.
+
+O gerador também:
+
+- **descarta exercício sem imagem** — o wger tem ~948 exercícios mas só ~377 imagens;
 - **descarta alongamento e mobilidade** — o catálogo é colaborativo e mistura supino reto
   com "Child's pose", "Foam Roller Gluteus" e "Quad Stretch";
 - **corrige grupo errado** — o wger marca bíceps como músculo primário em remada invertida
-  e puxada, que são de costas;
-- **traduz nome a nome** pelo mapa em `scripts/dicionario.mjs`, guardando o nome original
-  em inglês para exibir junto e para a busca encontrar pelos dois;
-- **substitui o texto de execução** pelo verbete em português de `scripts/instrucoes.mjs` —
-  o texto do wger vem em inglês e com qualidade irregular;
-- **deduplica** nomes que colidem depois de traduzidos.
+  e puxada, que são de costas.
 
 A tradução é mapa exato de propósito. A primeira versão traduzia por glossário de termos e
 o resultado era pior que o inglês: `Cross-Bench Dumbbell Pullovers` virava "Com halteres" e
@@ -73,8 +74,34 @@ o resultado era pior que o inglês: `Cross-Bench Dumbbell Pullovers` virava "Com
 glossário, o modificador tomava o lugar do nome. Mapa exato no máximo deixa algo em inglês,
 mas nunca inventa.
 
-Pra corrigir uma tradução ou tirar um exercício da lista: edita `scripts/dicionario.mjs` e
-roda `npm run catalogo` de novo.
+### Free Exercise DB — 356 exercícios a mais, sem curadoria manual
+
+Vêm do [yuhonas/free-exercise-db](https://github.com/yuhonas/free-exercise-db), 876
+exercícios em domínio público (Unlicense), com **foto real** em vez de desenho de linha e
+nível de dificuldade (`beginner`/`intermediate`/`expert`) já rotulado pela própria fonte —
+por isso não existe uma lista de nível pra ela como a do wger, o nível já vem pronto no
+dado.
+
+Diferente do wger, **essa fonte não recebe tradução nem instrução escrita à mão**: são 876
+itens, escala grande demais pra fazer o mesmo trabalho manual desta vez. O nome só sai em
+português quando bate com algo já no dicionário do wger — do contrário fica em inglês,
+igual o app já se comporta quando falta tradução. `instrucoes` fica `null` em vez de
+mostrar inglês ou uma tradução automática sem revisão.
+
+O gerador filtra e cruza as duas fontes:
+
+- descarta categoria `stretching` (123 itens — mobilidade, não musculação);
+- descarta exercício cujo músculo primário não é um dos 6 grupos do app (abdômen,
+  antebraço, pescoço — 113 itens);
+- **descarta quase-duplicata entre as fontes**: compara as palavras do nome em inglês do
+  Free Exercise DB contra os nomes em inglês já usados pelo wger no mesmo grupo. Sem isso
+  `Bent Over Barbell Row` (Free Exercise DB) apareceria ao lado de `Remada curvada com
+  barra` (wger) como dois exercícios diferentes — mesmo movimento, nomes que não batem
+  depois de traduzidos. Isso sozinho descartou 269 repetições disfarçadas.
+
+Pra corrigir uma tradução, mudar um exercício de nível ou tirar algo da lista: edita
+`scripts/dicionario.mjs` (ou `scripts/niveis.mjs`, só usado pelo wger) e roda
+`npm run catalogo` de novo.
 
 ### Trocando a fonte
 
@@ -83,7 +110,7 @@ origem dos dados não encosta em nenhum componente:
 
 | Fonte      | Arquivo                               | Observação                                    |
 | ---------- | ------------------------------------- | --------------------------------------------- |
-| `catalogo` | `src/services/exercicios/catalogo.ts` | JSON embutido — **padrão**                    |
+| `catalogo` | `src/services/exercicios/catalogo.ts` | JSON embutido (wger + Free Exercise DB) — **padrão** |
 | `wger`     | `src/services/exercicios/wger.ts`     | consulta o wger ao vivo, sem chave, sem curadoria |
 | `mock`     | `src/services/exercicios/mock.ts`     | 13 exercícios na mão, pra desenvolver sem rede |
 
@@ -92,7 +119,17 @@ VITE_FONTE_EXERCICIOS=wger
 ```
 
 A **MuscleWiki** ficou de fora porque não tem API pública: os endpoints que o site dela usa
-(`/newapi/...`) estão atrás do Cloudflare e respondem `403` pra origem externa.
+(`/newapi/...`) estão atrás do Cloudflare e respondem `403` pra origem externa. O
+**ExerciseDB** (RapidAPI) tem 11 mil exercícios com GIF, mas exige chave — precisaria de um
+proxy (função serverless) pra não vazar a chave no bundle público, o que muda o tipo de
+deploy do app.
+
+### Não achou o exercício?
+
+O botão **"Criar exercício manual"**, no painel de adicionar, deixa criar pelo nome — sem
+foto, só pra aquela ficha. O id é derivado do nome (não é aleatório): recriar "Cadeira
+adutora da minha academia" outro dia cai no mesmo id, então a aba Progressão acumula
+histórico em vez de tratar cada adição manual como um exercício novo.
 
 ## Níveis e fichas prontas
 

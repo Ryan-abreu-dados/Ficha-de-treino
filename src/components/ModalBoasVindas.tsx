@@ -19,7 +19,7 @@ const PASSOS = [
     icone: Search,
     titulo: 'Escolha grupo, nível e exercício',
     texto:
-      'Filtre por Peito, Costas, Pernas, Ombro, Bíceps ou Tríceps, e por nível técnico. Defina séries e repetições e toque em Adicionar.',
+      'Filtre por Peito, Costas, Pernas, Ombro, Bíceps ou Tríceps, e por nível técnico. Não achou o que procurava? "Criar exercício manual" adiciona pelo nome, mesmo sem foto.',
   },
   {
     icone: ListPlus,

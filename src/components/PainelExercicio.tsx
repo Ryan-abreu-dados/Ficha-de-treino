@@ -29,6 +29,8 @@ export function PainelExercicio({
   const [series, setSeries] = useState(3)
   const [reps, setReps] = useState(12)
   const [confirmado, setConfirmado] = useState(false)
+  const [criandoManual, setCriandoManual] = useState(false)
+  const [nomeManual, setNomeManual] = useState('')
 
   // Busca por grupo. `cancelado` evita que uma resposta lenta de um grupo
   // anterior sobrescreva a lista do grupo que o usuario ja selecionou.
@@ -37,6 +39,8 @@ export function PainelExercicio({
     setCarregando(true)
     setErro(null)
     setBusca('')
+    setCriandoManual(false)
+    setNomeManual('')
 
     fonteExercicios
       .listarExercicios(grupo)
@@ -98,6 +102,33 @@ export function PainelExercicio({
     onAdicionar(selecionado, series, reps)
     setConfirmado(true)
     window.setTimeout(() => setConfirmado(false), 1400)
+  }
+
+  function adicionarManual() {
+    const nome = nomeManual.trim()
+    if (!nome) return
+
+    // id derivado do nome (nao aleatorio): recriar "Cadeira adutora" outro dia
+    // cai no mesmo id, entao a Progressao acumula historico em vez de tratar
+    // cada adicao manual como um exercicio novo
+    const slug = normalizar(nome)
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-+|-+$)/g, '')
+
+    const exercicio: Exercicio = {
+      id: `manual-${grupo}-${slug || Date.now()}`,
+      nome,
+      grupo,
+      nivel: 'intermediario',
+      imagem: null,
+      fonte: 'manual',
+    }
+
+    onAdicionar(exercicio, series, reps)
+    setConfirmado(true)
+    window.setTimeout(() => setConfirmado(false), 1400)
+    setNomeManual('')
+    setCriandoManual(false)
   }
 
   return (
@@ -172,38 +203,71 @@ export function PainelExercicio({
             </select>
           )}
 
-          {selecionado && (
-            <>
-              <div className="mt-4 overflow-hidden rounded-xl border border-white/5">
-                <ExercicioImagem
-                  src={selecionado.imagem}
-                  alt={selecionado.nome}
-                  className="h-56 w-full sm:h-72"
-                />
-              </div>
+          {!criandoManual && (
+            <button
+              type="button"
+              onClick={() => setCriandoManual(true)}
+              className="mt-2 flex items-center gap-1.5 text-xs font-medium text-zinc-500 transition hover:text-acento"
+            >
+              <Plus className="h-3.5 w-3.5" /> Não achei — criar exercício manual
+            </button>
+          )}
 
-              <h3 className="mt-3 text-lg font-bold leading-tight">{selecionado.nome}</h3>
-              {selecionado.nomeOriginal && selecionado.nomeOriginal !== selecionado.nome && (
-                <p className="mt-0.5 text-sm italic text-zinc-500">
-                  {selecionado.nomeOriginal}
-                </p>
-              )}
-              <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-                <span className="rounded-md bg-acento/15 px-2 py-0.5 text-xs font-semibold text-acento">
-                  {NIVEIS.find((n) => n.id === selecionado.nivel)?.nome}
-                </span>
-                {selecionado.equipamento && (
-                  <span className="rounded-md bg-base-700 px-2 py-0.5 text-xs text-zinc-400">
-                    {selecionado.equipamento}
-                  </span>
+          {criandoManual ? (
+            <div className="mt-4">
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                Nome do exercício
+              </label>
+              <input
+                type="text"
+                autoFocus
+                value={nomeManual}
+                onChange={(e) => setNomeManual(e.target.value)}
+                placeholder="ex: Remada na máquina X da minha academia"
+                className="campo"
+              />
+              <p className="mt-1.5 text-xs text-zinc-600">
+                Sem foto — fica só com esse nome na sua ficha e no PDF.
+              </p>
+            </div>
+          ) : (
+            selecionado && (
+              <>
+                <div className="mt-4 overflow-hidden rounded-xl border border-white/5">
+                  <ExercicioImagem
+                    src={selecionado.imagem}
+                    alt={selecionado.nome}
+                    className="h-56 w-full sm:h-72"
+                  />
+                </div>
+
+                <h3 className="mt-3 text-lg font-bold leading-tight">{selecionado.nome}</h3>
+                {selecionado.nomeOriginal && selecionado.nomeOriginal !== selecionado.nome && (
+                  <p className="mt-0.5 text-sm italic text-zinc-500">
+                    {selecionado.nomeOriginal}
+                  </p>
                 )}
-              </div>
-              {selecionado.instrucoes && (
-                <p className="mt-2 line-clamp-4 text-sm leading-relaxed text-zinc-400">
-                  {selecionado.instrucoes}
-                </p>
-              )}
+                <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                  <span className="rounded-md bg-acento/15 px-2 py-0.5 text-xs font-semibold text-acento">
+                    {NIVEIS.find((n) => n.id === selecionado.nivel)?.nome}
+                  </span>
+                  {selecionado.equipamento && (
+                    <span className="rounded-md bg-base-700 px-2 py-0.5 text-xs text-zinc-400">
+                      {selecionado.equipamento}
+                    </span>
+                  )}
+                </div>
+                {selecionado.instrucoes && (
+                  <p className="mt-2 line-clamp-4 text-sm leading-relaxed text-zinc-400">
+                    {selecionado.instrucoes}
+                  </p>
+                )}
+              </>
+            )
+          )}
 
+          {(criandoManual || selecionado) && (
+            <>
               <div className="mt-4 grid grid-cols-2 gap-3">
                 <div>
                   <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-zinc-500">
@@ -227,10 +291,32 @@ export function PainelExercicio({
                 </div>
               </div>
 
-              <button type="button" onClick={adicionar} className="botao-primario mt-4">
+              <button
+                type="button"
+                onClick={criandoManual ? adicionarManual : adicionar}
+                disabled={criandoManual && !nomeManual.trim()}
+                className="botao-primario mt-4"
+              >
                 <Plus className="h-5 w-5" strokeWidth={2.5} />
-                {confirmado ? 'Adicionado!' : `Adicionar ao ${nomeTreinoDestino}`}
+                {confirmado
+                  ? 'Adicionado!'
+                  : criandoManual
+                    ? 'Adicionar exercício manual'
+                    : `Adicionar ao ${nomeTreinoDestino}`}
               </button>
+
+              {criandoManual && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCriandoManual(false)
+                    setNomeManual('')
+                  }}
+                  className="mt-2 w-full text-center text-xs font-medium text-zinc-500 hover:text-zinc-300"
+                >
+                  Cancelar
+                </button>
+              )}
             </>
           )}
         </>
